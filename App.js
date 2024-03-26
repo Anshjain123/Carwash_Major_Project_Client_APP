@@ -3,18 +3,16 @@ import { StyleSheet, Text, View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { auth } from './firebase';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 // import LoginScreen from './Screens/LoginScreen';
 import Home from './Screens/Home';
 import Login from './Screens/Login';
+import ViewMedia from './Screens/ViewMedia';
 
 
 export default function App() {
 
   const [loginScreen, setloginScreen] = useState(true);
-  const [phone, setphone] = useState(null)
 
   const Stack = createNativeStackNavigator();
 
@@ -23,18 +21,23 @@ export default function App() {
     <>
 
 
-      {loginScreen && <Login setloginScreen={setloginScreen} setphone={setphone} />}
+      {loginScreen && <Login setloginScreen={setloginScreen} />}
       {!loginScreen && <NavigationContainer>
 
         <Stack.Navigator>
           <Stack.Screen
 
-            name='Home'
+            name='home'
             component={Home}
-            initialParams={{ phone: phone }}
+            
           // children={() => <Home email={email} navigation={navigation} />}
           />
-          
+          <Stack.Screen
+
+            name='viewmedia'
+            component={ViewMedia}
+          />
+
         </Stack.Navigator>
       </NavigationContainer>}
     </>

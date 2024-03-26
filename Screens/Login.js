@@ -10,19 +10,75 @@ import {
     TouchableOpacity,
 } from "react-native";
 
+import storage from "../storage";
 
-const Login = ({ setloginScreen, setphone, navigation }) => {
 
-    const [Phone, setPhone] = useState(null);
+const Login = ({ setloginScreen, navigation }) => {
+
+
+    const [phone, setphone] = useState(null);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const handlelogin = () => {
+
+    const storeData = async (data) => {
+        console.log("trying to store jwt and user");
+        try {
+
+            storage.save({
+                key: "ClientloginState",
+                data: {
+                    "token": data["jwtToken"],
+                    "username": data["username"]
+                },
+                expires: null
+            })
+
+            storage.load({key:"ClientloginState"})
+            .then(ret => {
+                console.log(ret); 
+            }).catch(err => {
+                console.log(err); 
+            }) 
+        } catch (error) {
+            console.log(error);
+        }
+
+    }
+
+
+    const handlelogin = async () => {
         console.log("Client trying to login");
         // console.log(props); 
-        setloginScreen(false);
-        setphone(Phone);
+
+        try {
+
+            let res = await fetch("http://192.168.1.23:8080/login/client", {
+                method: "POST",
+                headers: {
+                    'Content-Type': "application/json"
+                },
+                body: JSON.stringify({ username: phone, password: password, type: "client" })
+            })
+            if (res.ok) {
+                let response = await res.json();
+                console.log(response);
+                storeData(response);
+                // setIsLoggedIn(true);
+                // console.log(response["jwtToken"]);
+                setloginScreen(false);
+
+            }
+
+        } catch (error) {
+            console.log(error);
+        }
+
+
+        // setphone(phone);
     }
+
+    // console.log(phone);
     return (
         <View style={styles.container}>
             {/* <Image style={styles.image} source={require("./assets/log2.png")} /> */}
@@ -33,7 +89,9 @@ const Login = ({ setloginScreen, setphone, navigation }) => {
                     style={styles.TextInput}
                     placeholder="Phone number"
                     placeholderTextColor="#003f5c"
-                    onChangeText={(phone) => setPhone(phone)}
+                    // value={phone}
+                    
+                    onChangeText={(PHONE) => setphone(PHONE)}
                 />
             </View>
             <View style={styles.inputView}>
@@ -42,6 +100,7 @@ const Login = ({ setloginScreen, setphone, navigation }) => {
                     placeholder="Password."
                     placeholderTextColor="#003f5c"
                     secureTextEntry={true}
+                    // value={password}
                     onChangeText={(password) => setPassword(password)}
                 />
             </View>
