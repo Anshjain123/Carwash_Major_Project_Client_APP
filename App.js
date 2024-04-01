@@ -8,7 +8,12 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Home from './Screens/Home';
 import Login from './Screens/Login';
 import ViewMedia from './Screens/ViewMedia';
+import CheckoutPage from './Screens/CheckoutPage';
+import SuccessPage from './Screens/SuccessPage';
 
+import { StripeProvider } from '@stripe/stripe-react-native';
+import StripeApp from './Screens/StripeApp';
+import ClientCarDetails from './Screens/ClientCarDetails';
 
 export default function App() {
 
@@ -22,24 +27,52 @@ export default function App() {
 
 
       {loginScreen && <Login setloginScreen={setloginScreen} />}
-      {!loginScreen && <NavigationContainer>
+      {!loginScreen &&
 
-        <Stack.Navigator>
-          <Stack.Screen
+        <StripeProvider publishableKey='pk_test_51OzADOSAbmkAKQN9dP7LTny9r3uqq7sZYRwJbCB4DDTgF0qtklqM4sJLckY313JlzSZYnr6rekjJS8rTS7XGXcCg00TBi8zpxF' >
+          <NavigationContainer>
 
-            name='home'
-            component={Home}
-            
-          // children={() => <Home email={email} navigation={navigation} />}
-          />
-          <Stack.Screen
+            <Stack.Navigator>
+              <Stack.Screen
 
-            name='viewmedia'
-            component={ViewMedia}
-          />
+                name='home'
+                component={Home}
 
-        </Stack.Navigator>
-      </NavigationContainer>}
+              // children={() => <Home email={email} navigation={navigation} />}
+              />
+              <Stack.Screen
+
+                name='viewmedia'
+                component={ViewMedia}
+              />
+              <Stack.Screen
+
+                name='checkout'
+                component={CheckoutPage}
+              />
+
+              <Stack.Screen
+
+                name='success'
+                component={SuccessPage}
+              />
+
+              <Stack.Screen
+
+                name='stripe'
+                component={StripeApp}
+              />
+
+              <Stack.Screen
+
+                name='clientcardetails'
+                component={ClientCarDetails}
+              />
+
+            </Stack.Navigator>
+          </NavigationContainer>
+        </StripeProvider>
+      }
     </>
 
   );

@@ -29,7 +29,7 @@ const ViewMedia = ({ route, navigation }) => {
 
         try {
             let res = await response.json();
-            console.log(res);
+            console.log("printing res",res);
             setallUrls(res);
             // toast.success("fetched images succefully!");
         } catch (error) {
@@ -59,7 +59,7 @@ const ViewMedia = ({ route, navigation }) => {
 
             <View style={imageUploaderStyles.container}>
 
-                {allUrls.map((url, i) => {
+                {allUrls.length > 0 && allUrls.map((url, i) => {
                     return <Card>
 
                         <View key={i} >
@@ -71,6 +71,12 @@ const ViewMedia = ({ route, navigation }) => {
                     </Card>
 
                 })}
+                {allUrls.length == 0 && <Card>
+
+                    <View>
+                        <Text>No images uploaded for selected date</Text>
+                    </View>
+                </Card>}
 
             </View>
             {/* {url != null && <Image source={{ uri: url }} style={{ width: 200, height: 200 }} />} */}
