@@ -18,7 +18,7 @@ const ViewMedia = ({ route, navigation }) => {
 
 
 
-        let response = await fetch("http://192.168.1.23:8080/client/getUrlsByDateAndCarNumber", {
+        let response = await fetch("http://172.31.65.95:8080/client/getUrlsByDateAndCarNumber", {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',

@@ -51,7 +51,7 @@ const StripeApp = ({ route, navigation }) => {
             } else {
                 amount = 700;
             }
-            let res = await fetch("http://192.168.1.23:8080/client/createpaymentintent", {
+            let res = await fetch("http://172.31.65.95:8080/client/createpaymentintent", {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
@@ -110,7 +110,7 @@ const StripeApp = ({ route, navigation }) => {
             } else if (paymentIntent) {
                 showToastSuccess("Payment is successful!");
 
-                let res = await fetch("http://192.168.1.23:8080/client/sendPaymentSuccessNotification", {
+                let res = await fetch("http://172.31.65.95:8080/client/sendPaymentSuccessNotification", {
                     method: "POST",
                     headers: {
                         'Content-Type': 'application/json',

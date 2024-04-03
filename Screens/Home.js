@@ -10,6 +10,8 @@ import { loadStripe } from '@stripe/stripe-js';
 import { useFocusEffect } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
 import ClientCarDetails from './ClientCarDetails';
+import { MaterialIcons } from '@expo/vector-icons';
+
 
 const Home = ({ route, navigation }) => {
 
@@ -21,6 +23,11 @@ const Home = ({ route, navigation }) => {
   const [open, setopen] = useState(false);
   const [orderId, setorderId] = useState(null);
   const [reload, setreload] = useState(0);
+
+
+  const {setloginScreen} = route.params;
+  // console.log(setloginScreen);
+
 
   const getData = async () => {
     let res = await storage.load({ key: "ClientloginState" })
@@ -37,7 +44,7 @@ const Home = ({ route, navigation }) => {
     // console.log(token, username);
 
     try {
-      let res = await fetch(`http://192.168.1.23:8080/client/getAllClientCars/${username}`, {
+      let res = await fetch(`http://172.31.65.95:8080/client/getAllClientCars/${username}`, {
         method: "GET",
         headers: {
           'Content-Type': 'application/json',
@@ -70,14 +77,21 @@ const Home = ({ route, navigation }) => {
   useLayoutEffect(() => {
 
     navigation.setOptions({
-      headerRight: () => (
+      headerLeft: () => (
         <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginRight: 10 }}>
           <TouchableOpacity onPress={() => getData()} >
             <AntDesign name="reload1" size={24} color="black" />
           </TouchableOpacity>
         </View>
       ),
-      title:"Home", 
+      headerRight: () => (
+        <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginRight: 10 }}>
+          <TouchableOpacity onPress={() => navigation.navigate("accountscreen", { setloginScreen: setloginScreen })} >
+            <MaterialIcons name="manage-accounts" size={24} color="black" />
+          </TouchableOpacity>
+        </View>
+      ),
+      title: "Home",
       headerStyle: { backgroundColor: 'white' },
       headerTitleStyle: { color: "black" },
       headerTintColor: "black",
@@ -129,7 +143,7 @@ const Home = ({ route, navigation }) => {
 
   // console.log(date);
 
-  let mode = "calendar"; 
+  let mode = "calendar";
 
   return (
     <>
@@ -139,7 +153,7 @@ const Home = ({ route, navigation }) => {
         <View style={styles.container}>
           {/* <Card.Title>Welcome {props.email}</Card.Title> */}
           {allClientCars.map((car, i) => {
-            return <ClientCarDetails navigation={navigation} car={car} mode={mode} token={token} showToastError={showToastError}/>
+            return <ClientCarDetails navigation={navigation} car={car} mode={mode} token={token} showToastError={showToastError} />
 
           })}
 

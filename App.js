@@ -14,12 +14,39 @@ import SuccessPage from './Screens/SuccessPage';
 import { StripeProvider } from '@stripe/stripe-react-native';
 import StripeApp from './Screens/StripeApp';
 import ClientCarDetails from './Screens/ClientCarDetails';
+import AccountScreen from './Screens/AccountScreen';
+import storage from './storage';
 
 export default function App() {
 
   const [loginScreen, setloginScreen] = useState(true);
 
   const Stack = createNativeStackNavigator();
+
+  const validate = async () => {
+
+    let res = await storage.load({ key: "ClientloginState" })
+    let username = res.username;
+    let token = res.token;
+
+    let response = await fetch("http://172.31.65.95:8080/client/validateToken", {
+      method: "GET",
+      headers: {
+        'Content-Type': "application/json",
+        "Authorization": `Bearer ${token}`
+      },
+    })
+
+    if (response.ok) {
+      setloginScreen(false);
+    }
+
+  }
+
+  useEffect(() => {
+
+    validate();
+  }, [])
 
   return (
 
@@ -34,7 +61,7 @@ export default function App() {
 
             <Stack.Navigator>
               <Stack.Screen
-
+                initialParams={{ setloginScreen: setloginScreen }}
                 name='home'
                 component={Home}
 
@@ -67,6 +94,12 @@ export default function App() {
 
                 name='clientcardetails'
                 component={ClientCarDetails}
+              />
+
+              <Stack.Screen
+
+                name='accountscreen'
+                component={AccountScreen}
               />
 
             </Stack.Navigator>

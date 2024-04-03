@@ -82,13 +82,8 @@ const ClientCarDetails = ({ car, navigation, mode, token, showToastError}) => {
         <Card key={car.carNumber}>
             {/* <Toast style={{ zIndex: 1 }} position='top' /> */}
             <View style={styles.user} >
-                {/* <Image
-                                        style={styles.image}
-                                        resizeMode="cover"
-                                        source={{ uri: u.avatar }}
-                                    /> */}
                 <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', width: '100%', borderLeftColor: colorPlans[car.plan], borderLeftWidth: 5 }} >
-                    <View style={{ display: 'flex' }}>
+                    <View style={{ display: 'flex', flex:0.55 }}>
 
                         <Text style={styles.name}>CarModel - {car.carModel}</Text>
                         <Text style={styles.name}>CaNumber - {car.carNumber}</Text>
@@ -96,7 +91,7 @@ const ClientCarDetails = ({ car, navigation, mode, token, showToastError}) => {
                         <Text style={styles.name}>Plan - {car.plan}</Text>
                         <Text style={styles.name}>Validity - {moment(car.planValidity).utc().format("DD-MM-YYYY")}</Text>
                     </View>
-                    <View style={{ display: 'flex', justifyContent: 'space-around' }} >
+                    <View style={{ display: 'flex', justifyContent: 'space-around', flex:0.35 }} >
                         <View style={{ display: 'flex', marginTop: 10 }}>
                             <Button onPress={() => handleViewMedia(car)} >View Media</Button>
                         </View>
@@ -134,10 +129,6 @@ const ClientCarDetails = ({ car, navigation, mode, token, showToastError}) => {
                         </View>
                     </View>
                 </View>
-
-                {/* <View>
-                                        <Button onPress={() => handleAddMedia(car)} >Add media</Button>
-                                </View> */}
 
             </View>
         </Card>
