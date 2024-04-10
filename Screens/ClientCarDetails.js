@@ -5,7 +5,7 @@ import { Text, Card, Button, Icon } from '@rneui/themed';
 import DatePicker from "react-native-modern-datepicker";
 // import Toast from 'react-native-toast-message';
 
-const ClientCarDetails = ({ car, navigation, mode, token, showToastError}) => {
+const ClientCarDetails = ({ car, navigation, mode, token, showToastError }) => {
 
 
     // const [token, settoken] = useState(null);
@@ -83,15 +83,16 @@ const ClientCarDetails = ({ car, navigation, mode, token, showToastError}) => {
             {/* <Toast style={{ zIndex: 1 }} position='top' /> */}
             <View style={styles.user} >
                 <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', width: '100%', borderLeftColor: colorPlans[car.plan], borderLeftWidth: 5 }} >
-                    <View style={{ display: 'flex', flex:0.55 }}>
+                    <View style={{ display: 'flex', flex: 0.55 }}>
 
                         <Text style={styles.name}>CarModel - {car.carModel}</Text>
                         <Text style={styles.name}>CaNumber - {car.carNumber}</Text>
                         <Text style={styles.name}>Description - {car.description}</Text>
                         <Text style={styles.name}>Plan - {car.plan}</Text>
                         <Text style={styles.name}>Validity - {moment(car.planValidity).utc().format("DD-MM-YYYY")}</Text>
+                        <Text style={styles.name}>carLocation - {car.carLocation}</Text>
                     </View>
-                    <View style={{ display: 'flex', justifyContent: 'space-around', flex:0.35 }} >
+                    <View style={{ display: 'flex', justifyContent: 'space-around', flex: 0.35 }} >
                         <View style={{ display: 'flex', marginTop: 10 }}>
                             <Button onPress={() => handleViewMedia(car)} >View Media</Button>
                         </View>

@@ -16,6 +16,9 @@ import StripeApp from './Screens/StripeApp';
 import ClientCarDetails from './Screens/ClientCarDetails';
 import AccountScreen from './Screens/AccountScreen';
 import storage from './storage';
+import Address from './Screens/Address';
+import MapScreen from './Screens/MapScreen';
+import ChangePassword from './Screens/ChangePassword';
 
 export default function App() {
 
@@ -80,6 +83,18 @@ export default function App() {
 
               <Stack.Screen
 
+                name='address'
+                component={Address}
+              />
+
+              <Stack.Screen
+
+                name='changepassword'
+                component={ChangePassword}
+              />
+
+              <Stack.Screen
+
                 name='success'
                 component={SuccessPage}
               />
@@ -94,6 +109,12 @@ export default function App() {
 
                 name='clientcardetails'
                 component={ClientCarDetails}
+              />
+
+              <Stack.Screen
+
+                name='map'
+                component={MapScreen}
               />
 
               <Stack.Screen

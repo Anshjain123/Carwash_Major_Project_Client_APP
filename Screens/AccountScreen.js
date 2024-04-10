@@ -1,4 +1,4 @@
-import { StyleSheet, View, TouchableOpacity, Modal } from 'react-native'
+import { StyleSheet, View, TouchableOpacity, Modal, TouchableHighlight } from 'react-native'
 import React from 'react'
 import { useLayoutEffect } from 'react'
 import { Text, Card, Button, Icon } from '@rneui/themed';
@@ -32,38 +32,46 @@ const AccountScreen = ({ navigation, route }) => {
     }
   }
 
+  const handleAddress = () => {
+    navigation.navigate("address");
+  }
+
+  const handlePassword = () => {
+    navigation.navigate("changepassword", { setloginScreen: setloginScreen });
+  }
+
   return (
 
     <View>
 
       <Card>
-        <View style={styles.user} >
-          <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', width: '100%' }} >
+        <TouchableOpacity style={styles.user} >
+          <TouchableOpacity onPress={() => handleAddress()} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', width: '100%' }} >
             <Text>
               Address
             </Text>
-          </View>
-        </View>
+          </TouchableOpacity>
+        </TouchableOpacity>
       </Card>
 
       <Card>
-        <View style={styles.user} >
-          <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', width: '100%' }} >
+        <TouchableOpacity style={styles.user} >
+          <TouchableOpacity onPress={() => handlePassword()} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', width: '100%' }} >
             <Text>
               Change Password
             </Text>
-          </View>
-        </View>
+          </TouchableOpacity>
+        </TouchableOpacity>
       </Card>
 
       <Card>
-        <View style={styles.user} >
-          <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', width: '100%' }} >
+        <TouchableOpacity style={styles.user} >
+          <TouchableOpacity style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', width: '100%' }} >
             <Text>
               See transaction history
             </Text>
-          </View>
-        </View>
+          </TouchableOpacity>
+        </TouchableOpacity>
       </Card>
 
       <View style={{ padding: 15 }}>
