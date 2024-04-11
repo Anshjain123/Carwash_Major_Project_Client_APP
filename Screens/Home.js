@@ -1,4 +1,4 @@
-import { View, ScrollView, StyleSheet, Image, Linking, Animated, Modal, TouchableOpacity } from 'react-native';
+import { View, ScrollView, StyleSheet, Image, Linking, Animated, Modal, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 import React, { useEffect, useState, useLayoutEffect } from 'react'
 import { Text, Card, Button, Icon } from '@rneui/themed';
 import storage from '../storage';
@@ -23,13 +23,14 @@ const Home = ({ route, navigation }) => {
   const [open, setopen] = useState(false);
   const [orderId, setorderId] = useState(null);
   const [reload, setreload] = useState(0);
+  const [confirmModal, setconfirmModal] = useState(false);
 
-
-  const {setloginScreen} = route.params;
+  const { setloginScreen } = route.params;
   // console.log(setloginScreen);
 
 
   const getData = async () => {
+    setModalVisible(false); 
     let res = await storage.load({ key: "ClientloginState" })
     let username = res.username;
     let token = res.token;
@@ -69,10 +70,17 @@ const Home = ({ route, navigation }) => {
     }
   }
 
+  const [modalVisible, setModalVisible] = useState(false);
+
   useEffect(() => {
     getData();
   }, [navigation]);
 
+  const handleToggle = () => {
+    // console.log("Yes toggling")
+    setModalVisible(true);
+    // console.log(modalVisible)
+  }
 
   useLayoutEffect(() => {
 
@@ -86,8 +94,10 @@ const Home = ({ route, navigation }) => {
       ),
       headerRight: () => (
         <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginRight: 10 }}>
-          <TouchableOpacity onPress={() => navigation.navigate("accountscreen", { setloginScreen: setloginScreen })} >
+          <TouchableOpacity onPress={() => handleToggle()} >
+
             <MaterialIcons name="manage-accounts" size={24} color="black" />
+
           </TouchableOpacity>
         </View>
       ),
@@ -145,12 +155,44 @@ const Home = ({ route, navigation }) => {
 
   let mode = "calendar";
 
+  const handleAddress = () => {
+    navigation.navigate("address");
+  }
+
+  const handlePassword = () => {
+    navigation.navigate("changepassword", { setloginScreen: setloginScreen });
+  }
+
+
+  const handleConfirm = () => {
+    setModalVisible(false);
+    setconfirmModal(true);
+  }
+
+  const handleLogout = async () => {
+
+    setconfirmModal(false);
+
+    try {
+      const key = "ClientloginState";
+      setloginScreen(true);
+      storage.remove({ key: key })
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  // console.log(modalVisible);
   return (
     <>
+      {/* <View onPress={() => setModalVisible(false)}> */}
+
+
       <ScrollView>
+
         <Toast style={{ zIndex: 1 }} position='top' />
 
-        <View style={styles.container}>
+        <View style={styles.container} >
           {/* <Card.Title>Welcome {props.email}</Card.Title> */}
           {allClientCars.map((car, i) => {
             return <ClientCarDetails navigation={navigation} car={car} mode={mode} token={token} showToastError={showToastError} />
@@ -158,7 +200,75 @@ const Home = ({ route, navigation }) => {
           })}
 
         </View>
+        <View>
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+              setModalVisible(!modalVisible);
+            }}
+
+          >
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <View>
+
+                  <TouchableOpacity onPress={() => handleAddress()} style={styles.user} >
+                    <Text style={{ fontSize: 16 }} >
+                      Address
+                    </Text>
+
+                  </TouchableOpacity>
+
+                  <TouchableOpacity onPress={() => handlePassword()} style={styles.user} >
+                    <Text style={{ fontSize: 16 }}>
+                      Change Password
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={() => handleConfirm()} style={styles.user} >
+                    <Text style={{ color: 'red', fontWeight: 'bold', fontSize: 16 }} >
+                      Logout
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+                {/* <Text style={styles.modalText}>This is the modal content</Text> */}
+                <Button title="Close" onPress={() => setModalVisible(false)} />
+              </View>
+            </View>
+          </Modal>
+        </View>
+
+        <View>
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={confirmModal}
+            onRequestClose={() => {
+              setconfirmModal(!confirmModal);
+            }}
+
+          >
+            <View style={styles.confirmCenteredView}>
+              <View style={styles.modalView}>
+                <View>
+
+                  <Text style={{ padding: 10, textAlign: 'center' }} >Are you sure to logout</Text>
+                  <View style={{ marginBottom: 10 }} >
+
+                    <Button color="red" title="Ok" onPress={() => handleLogout()} />
+                  </View>
+                  <View>
+
+                    <Button title="Cancel" onPress={() => setconfirmModal(false)} />
+                  </View>
+                </View>
+              </View>
+            </View>
+          </Modal>
+        </View>
       </ScrollView>
+      {/* </View> */}
     </>
   )
 }
@@ -173,38 +283,61 @@ const styles = StyleSheet.create({
   },
   user: {
     flexDirection: 'row',
-    marginBottom: 6,
+    paddingBottom: 20,
     justifyContent: 'space-between',
-
   },
 
   name: {
     fontSize: 16,
     marginTop: 5,
   },
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 22
-  },
   modalView: {
-    margin: 20,
+    marginTop: 30,
+
     backgroundColor: 'white',
     borderRadius: 20,
-    width: '90%',
+    // width: '90%',
     padding: 35,
-    alignItems: 'center',
+    // alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: {
-      width: 0,
+      width: 2,
       height: 2,
     },
     shadowOpacity: 0.25,
     shadowRadius: 4,
-    elevation: 5
+    elevation: 50
 
-  }
+  },
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  centeredView: {
+    flex: 1,
+    flexDirection: "row",
+    padding: 20,
+    justifyContent: 'flex-end',
+    alignItems: 'flex-start'
+    // justifyContent: 'center',
+    // alignItems: 'center',
+    // flexDirection:'row'
+    // marginTop: 22,
+  },
+  confirmCenteredView: {
+    flex: 1,
+    // flexDirection: "row",
+    padding: 20,
+    // justifyContent: 'flex-end',
+    // alignItems: 'flex-start'
+    // justifyContent: 'center',
+    // alignItems: 'center',
+    // flexDirection:'row'
+    marginTop: 22,
+  },
+
+
 });
 
 export default Home
@@ -215,34 +348,3 @@ export default Home
 
 
 
-
-
-
-// const users = [
-//     {
-//         name: 'brynn',
-//         avatar: 'https://uifaces.co/our-content/donated/1H_7AxP0.jpg',
-//     },
-//     {
-//         name: 'thot leader',
-//         avatar:
-//             'https://images.pexels.com/photos/598745/pexels-photo-598745.jpeg?crop=faces&fit=crop&h=200&w=200&auto=compress&cs=tinysrgb',
-//     },
-//     {
-//         name: 'jsa',
-//         avatar: 'https://uifaces.co/our-content/donated/bUkmHPKs.jpg',
-//     },
-//     {
-//         name: 'talhaconcepts',
-//         avatar: 'https://randomuser.me/api/portraits/men/4.jpg',
-//     },
-//     {
-//         name: 'andy vitale',
-//         avatar: 'https://uifaces.co/our-content/donated/NY9hnAbp.jpg',
-//     },
-//     {
-//         name: 'katy friedson',
-//         avatar:
-//             'https://images-na.ssl-images-amazon.com/images/M/MV5BMTgxMTc1MTYzM15BMl5BanBnXkFtZTgwNzI5NjMwOTE@._V1_UY256_CR16,0,172,256_AL_.jpg',
-//     },
-// ];

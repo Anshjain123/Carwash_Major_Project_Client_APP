@@ -64,15 +64,6 @@ const AccountScreen = ({ navigation, route }) => {
         </TouchableOpacity>
       </Card>
 
-      <Card>
-        <TouchableOpacity style={styles.user} >
-          <TouchableOpacity style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', width: '100%' }} >
-            <Text>
-              See transaction history
-            </Text>
-          </TouchableOpacity>
-        </TouchableOpacity>
-      </Card>
 
       <View style={{ padding: 15 }}>
         <Button style={styles.btn} onPress={() => handleLogout()} color="red" >Logout</Button>

@@ -10,7 +10,7 @@ import Login from './Screens/Login';
 import ViewMedia from './Screens/ViewMedia';
 import CheckoutPage from './Screens/CheckoutPage';
 import SuccessPage from './Screens/SuccessPage';
-
+import { AntDesign } from '@expo/vector-icons';
 import { StripeProvider } from '@stripe/stripe-react-native';
 import StripeApp from './Screens/StripeApp';
 import ClientCarDetails from './Screens/ClientCarDetails';
@@ -19,6 +19,8 @@ import storage from './storage';
 import Address from './Screens/Address';
 import MapScreen from './Screens/MapScreen';
 import ChangePassword from './Screens/ChangePassword';
+import TransactionHistory from './Screens/TransactionHistory';
+import { TouchableOpacity } from 'react-native';
 
 export default function App() {
 
@@ -85,12 +87,22 @@ export default function App() {
 
                 name='address'
                 component={Address}
+                
+                
               />
 
               <Stack.Screen
 
                 name='changepassword'
                 component={ChangePassword}
+                options={({ navigation }) => ({
+                  headerLeft: () => (
+                    <TouchableOpacity onPress={() => navigation.goBack()}>
+                      <AntDesign name="arrowleft" size={24} color="black" />
+                    </TouchableOpacity>
+                  ),
+    
+                })}
               />
 
               <Stack.Screen
@@ -98,7 +110,11 @@ export default function App() {
                 name='success'
                 component={SuccessPage}
               />
+              <Stack.Screen
 
+                name='transaction'
+                component={TransactionHistory}
+              />
               <Stack.Screen
 
                 name='stripe'

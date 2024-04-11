@@ -5,14 +5,18 @@ import { Text, Card, Button, Icon } from '@rneui/themed';
 import storage from '../storage';
 import { Feather } from '@expo/vector-icons';
 import Toast from 'react-native-toast-message';
-
+import { AntDesign } from '@expo/vector-icons';
 const Address = ({ navigation, route }) => {
 
 
     useLayoutEffect(() => {
 
         navigation.setOptions({
-
+            headerLeft: () => (
+                <TouchableOpacity onPress={() => navigation.navigate("home")}>
+                    <AntDesign name="arrowleft" size={24} color="black" />
+                </TouchableOpacity>
+            ),
             title: "Address",
             headerStyle: { backgroundColor: 'white' },
             headerTitleStyle: { color: "black" },
