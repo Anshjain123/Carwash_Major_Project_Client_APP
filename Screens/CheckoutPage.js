@@ -11,11 +11,12 @@ const CheckoutPage = ({ route, navigation }) => {
 
 
     const { car, token } = route.params;
+    const host = "172.31.65.218";
 
     const handlePay = async () => {
         console.log("paying")
         try {
-            let res = await fetch("http://172.31.65.95:8080/client/createpaymentintent", {
+            let res = await fetch(`http://${host}:8080/client/createpaymentintent`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',

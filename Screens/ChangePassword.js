@@ -7,7 +7,7 @@ import Toast from 'react-native-toast-message';
 const ChangePassword = ({ navigation, route }) => {
 
     const { setloginScreen } = route.params;
-
+    const host = "172.31.65.218";
     useLayoutEffect(() => {
 
         navigation.setOptions({
@@ -52,7 +52,7 @@ const ChangePassword = ({ navigation, route }) => {
         }
 
         try {
-            let response = await fetch(`http://172.31.65.95:8080/client/changePassword/${username}`, {
+            let response = await fetch(`http://${host}:8080/client/changePassword/${username}`, {
                 method: "PUT",
                 headers: {
                     'Content-Type': 'application/json',

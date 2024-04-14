@@ -21,6 +21,9 @@ import MapScreen from './Screens/MapScreen';
 import ChangePassword from './Screens/ChangePassword';
 import TransactionHistory from './Screens/TransactionHistory';
 import { TouchableOpacity } from 'react-native';
+import ForgetPassword from './Screens/ForgetPassword';
+import OtpScreen from './Screens/OtpScreen';
+import NewPassword from './Screens/NewPassword';
 
 export default function App() {
 
@@ -58,91 +61,117 @@ export default function App() {
     <>
 
 
-      {loginScreen && <Login setloginScreen={setloginScreen} />}
-      {!loginScreen &&
 
-        <StripeProvider publishableKey='pk_test_51OzADOSAbmkAKQN9dP7LTny9r3uqq7sZYRwJbCB4DDTgF0qtklqM4sJLckY313JlzSZYnr6rekjJS8rTS7XGXcCg00TBi8zpxF' >
-          <NavigationContainer>
 
-            <Stack.Navigator>
-              <Stack.Screen
-                initialParams={{ setloginScreen: setloginScreen }}
-                name='home'
-                component={Home}
+      <StripeProvider publishableKey='pk_test_51OzADOSAbmkAKQN9dP7LTny9r3uqq7sZYRwJbCB4DDTgF0qtklqM4sJLckY313JlzSZYnr6rekjJS8rTS7XGXcCg00TBi8zpxF' >
+        <NavigationContainer>
 
-              // children={() => <Home email={email} navigation={navigation} />}
-              />
-              <Stack.Screen
+          <Stack.Navigator>
+            {!loginScreen && <Stack.Screen
+              initialParams={{ setloginScreen: setloginScreen }}
+              name='home'
+              component={Home}
 
-                name='viewmedia'
-                component={ViewMedia}
-              />
-              <Stack.Screen
+            // children={() => <Home email={email} navigation={navigation} />}
+            />}
+            {!loginScreen && <Stack.Screen
 
-                name='checkout'
-                component={CheckoutPage}
-              />
+              name='viewmedia'
+              component={ViewMedia}
+            />}
+            {!loginScreen && <Stack.Screen
 
-              <Stack.Screen
+              name='checkout'
+              component={CheckoutPage}
+            />}
 
-                name='address'
-                component={Address}
-                
-                
-              />
+            {!loginScreen && <Stack.Screen
 
-              <Stack.Screen
+              name='address'
+              component={Address}
 
-                name='changepassword'
-                component={ChangePassword}
-                options={({ navigation }) => ({
-                  headerLeft: () => (
-                    <TouchableOpacity onPress={() => navigation.goBack()}>
-                      <AntDesign name="arrowleft" size={24} color="black" />
-                    </TouchableOpacity>
-                  ),
-    
-                })}
-              />
 
-              <Stack.Screen
+            />}
 
-                name='success'
-                component={SuccessPage}
-              />
-              <Stack.Screen
+            {!loginScreen && <Stack.Screen
 
-                name='transaction'
-                component={TransactionHistory}
-              />
-              <Stack.Screen
+              name='changepassword'
+              component={ChangePassword}
+              options={({ navigation }) => ({
+                headerLeft: () => (
+                  <TouchableOpacity onPress={() => navigation.goBack()}>
+                    <AntDesign name="arrowleft" size={24} color="black" />
+                  </TouchableOpacity>
+                ),
 
-                name='stripe'
-                component={StripeApp}
-              />
+              })}
+            />}
 
-              <Stack.Screen
+            {!loginScreen && <Stack.Screen
 
-                name='clientcardetails'
-                component={ClientCarDetails}
-              />
+              name='success'
+              component={SuccessPage}
+            />}
+            {!loginScreen && <Stack.Screen
 
-              <Stack.Screen
+              name='transaction'
+              component={TransactionHistory}
+            />}
+            {!loginScreen && <Stack.Screen
 
-                name='map'
-                component={MapScreen}
-              />
+              name='stripe'
+              component={StripeApp}
+            />}
 
-              <Stack.Screen
+            {!loginScreen && <Stack.Screen
 
-                name='accountscreen'
-                component={AccountScreen}
-              />
+              name='clientcardetails'
+              component={ClientCarDetails}
+            />}
 
-            </Stack.Navigator>
-          </NavigationContainer>
-        </StripeProvider>
-      }
+            {!loginScreen && <Stack.Screen
+
+              name='map'
+              component={MapScreen}
+            />}
+
+            {!loginScreen && <Stack.Screen
+
+              name='accountscreen'
+              component={AccountScreen}
+            />}
+
+
+            {loginScreen && <Stack.Screen
+
+              name='login'
+              component={Login}
+              initialParams={{ setloginScreen: setloginScreen }}
+            />}
+            {loginScreen && <Stack.Screen
+
+              name='forgetpassword'
+              component={ForgetPassword}
+            />}
+
+
+            {loginScreen && <Stack.Screen
+
+              name='otpscreen'
+              component={OtpScreen}
+            />}
+            {loginScreen && <Stack.Screen
+
+              name='newpassword'
+              component={NewPassword}
+            />}
+
+            {/* {loginScreen && <Login setloginScreen={setloginScreen} />} */}
+
+          </Stack.Navigator>
+        </NavigationContainer>
+      </StripeProvider>
+
     </>
 
   );

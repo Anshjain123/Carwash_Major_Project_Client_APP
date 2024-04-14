@@ -12,7 +12,7 @@ const StripeApp = ({ route, navigation }) => {
     const [Loading, setLoading] = useState(false)
     const { car, token, reload } = route.params;
 
-
+    const host = "172.31.65.218";
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -51,7 +51,7 @@ const StripeApp = ({ route, navigation }) => {
             } else {
                 amount = 700;
             }
-            let res = await fetch("http://172.31.65.95:8080/client/createpaymentintent", {
+            let res = await fetch(`http://${host}:8080/client/createpaymentintent`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
@@ -110,7 +110,7 @@ const StripeApp = ({ route, navigation }) => {
             } else if (paymentIntent) {
                 showToastSuccess("Payment is successful!");
 
-                let res = await fetch("http://172.31.65.95:8080/client/sendPaymentSuccessNotification", {
+                let res = await fetch(`http://${host}:8080/client/sendPaymentSuccessNotification`, {
                     method: "POST",
                     headers: {
                         'Content-Type': 'application/json',

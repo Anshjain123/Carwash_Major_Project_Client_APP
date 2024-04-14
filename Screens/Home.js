@@ -15,6 +15,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 
 const Home = ({ route, navigation }) => {
 
+  const host = "172.31.65.218";
   const [allClientCars, setallClientCars] = useState([]);
   const [image, setimage] = useState(null)
   const [username, setusername] = useState("");
@@ -24,7 +25,8 @@ const Home = ({ route, navigation }) => {
   const [orderId, setorderId] = useState(null);
   const [reload, setreload] = useState(0);
   const [confirmModal, setconfirmModal] = useState(false);
-
+  const [modalVisible, setModalVisible] = useState(false);
+  
   const { setloginScreen } = route.params;
   // console.log(setloginScreen);
 
@@ -45,7 +47,7 @@ const Home = ({ route, navigation }) => {
     // console.log(token, username);
 
     try {
-      let res = await fetch(`http://172.31.65.95:8080/client/getAllClientCars/${username}`, {
+      let res = await fetch(`http://${host}:8080/client/getAllClientCars/${username}`, {
         method: "GET",
         headers: {
           'Content-Type': 'application/json',
@@ -70,7 +72,6 @@ const Home = ({ route, navigation }) => {
     }
   }
 
-  const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     getData();
@@ -156,10 +157,12 @@ const Home = ({ route, navigation }) => {
   let mode = "calendar";
 
   const handleAddress = () => {
+    setModalVisible(false); 
     navigation.navigate("address");
   }
 
   const handlePassword = () => {
+    setModalVisible(false); 
     navigation.navigate("changepassword", { setloginScreen: setloginScreen });
   }
 

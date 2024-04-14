@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import {
     StyleSheet,
     Text,
@@ -13,13 +13,28 @@ import {
 import storage from "../storage";
 
 
-const Login = ({ setloginScreen, navigation }) => {
+const Login = ({ route, navigation }) => {
 
+    const host = "172.31.65.218";
+
+    const {setloginScreen} = route.params; 
 
     const [phone, setphone] = useState(null);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
+
+    useLayoutEffect(() => {
+
+        navigation.setOptions({
+
+            title: "Login",
+            headerStyle: { backgroundColor: 'white' },
+            headerTitleStyle: { color: "black" },
+            headerTintColor: "black",
+            headerTitleAlign: 'center',
+        })
+    }, [])
 
     const storeData = async (data) => {
         console.log("trying to store jwt and user");
@@ -53,7 +68,7 @@ const Login = ({ setloginScreen, navigation }) => {
 
         try {
 
-            let res = await fetch("http://172.31.65.95:8080/login/client", {
+            let res = await fetch(`http://${host}:8080/login/client`, {
                 method: "POST",
                 headers: {
                     'Content-Type': "application/json"
@@ -78,6 +93,9 @@ const Login = ({ setloginScreen, navigation }) => {
         // setphone(phone);
     }
 
+    const handleForgetPassword = () => {
+        navigation.navigate("forgetpassword", { setloginScreen: setloginScreen });
+    }
     // console.log(phone);
     return (
         <View style={styles.container}>
@@ -105,6 +123,7 @@ const Login = ({ setloginScreen, navigation }) => {
                 />
             </View>
             <TouchableOpacity>
+                <Text style={styles.forgot_button} onPress={() => handleForgetPassword()} >Forgot Password?</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.loginBtn} onPress={() => handlelogin()} >
                 <Text style={styles.loginText}>LOGIN</Text>

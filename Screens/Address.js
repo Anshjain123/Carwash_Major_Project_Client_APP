@@ -8,6 +8,7 @@ import Toast from 'react-native-toast-message';
 import { AntDesign } from '@expo/vector-icons';
 const Address = ({ navigation, route }) => {
 
+    const host = "172.31.65.218";
 
     useLayoutEffect(() => {
 
@@ -52,7 +53,7 @@ const Address = ({ navigation, route }) => {
 
 
         try {
-            let response = await fetch(`http://172.31.65.95:8080/client/getClientAddress/${username}`, {
+            let response = await fetch(`http://${host}:8080/client/getClientAddress/${username}`, {
                 method: "GET",
                 headers: {
                     'Content-Type': 'application/json',
@@ -126,7 +127,7 @@ const Address = ({ navigation, route }) => {
         console.log(address);
 
         try {
-            let response = await fetch(`http://172.31.65.95:8080/client/updateAddress/${username}`, {
+            let response = await fetch(`http://${host}:8080/client/updateAddress/${username}`, {
                 method: "PUT",
                 headers: {
                     'Content-Type': 'application/json',

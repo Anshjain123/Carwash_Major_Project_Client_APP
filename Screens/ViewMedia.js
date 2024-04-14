@@ -12,13 +12,13 @@ const ViewMedia = ({ route, navigation }) => {
     const [allUrls, setallUrls] = useState([])
 
     const { car, token, date } = route.params;
-
+    const host = "172.31.65.218";
 
     const getImages = async () => {
 
 
 
-        let response = await fetch("http://172.31.65.95:8080/client/getUrlsByDateAndCarNumber", {
+        let response = await fetch(`http://${host}:8080/client/getUrlsByDateAndCarNumber`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',

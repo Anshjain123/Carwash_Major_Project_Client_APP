@@ -11,6 +11,7 @@ const TransactionHistory = ({ navigation, route }) => {
 
     const [transactionHistory, settransactionHistory] = useState([]);
 
+    const host = "172.31.65.218";
     const getTransactionHistory = async () => {
         let res = await storage.load({ key: "ClientloginState" })
         let username = res.username;
@@ -22,7 +23,7 @@ const TransactionHistory = ({ navigation, route }) => {
         }
 
         try {
-            let res = await fetch("http://172.31.65.95:8080/client/transactionHistory", {
+            let res = await fetch(`http://${host}:8080/client/transactionHistory`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',

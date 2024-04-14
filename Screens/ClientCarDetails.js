@@ -12,6 +12,7 @@ import Toast from 'react-native-toast-message';
 const ClientCarDetails = ({ car, navigation, mode, token }) => {
 
 
+    const host = "172.31.65.218";
     // const [token, settoken] = useState(null);
     const [date, setdate] = useState(null);
     const [open, setopen] = useState(false);
@@ -104,7 +105,7 @@ const ClientCarDetails = ({ car, navigation, mode, token }) => {
                 carNumber:car.carNumber, 
                 rating:ratings
             }
-            let res = await fetch("http://172.31.65.95:8080/client/addRatings", {
+            let res = await fetch(`http://${host}:8080/client/addRatings`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
