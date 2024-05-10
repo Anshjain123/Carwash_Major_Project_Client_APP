@@ -8,7 +8,7 @@ import Toast from 'react-native-toast-message';
 import { AntDesign } from '@expo/vector-icons';
 const Address = ({ navigation, route }) => {
 
-    const host = "172.31.65.218";
+    const host = " 172.31.66.127";
 
     useLayoutEffect(() => {
 

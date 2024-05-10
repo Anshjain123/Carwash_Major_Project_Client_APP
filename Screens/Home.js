@@ -15,7 +15,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 
 const Home = ({ route, navigation }) => {
 
-  const host = "172.31.65.218";
+  const host = "172.31.66.127";
   const [allClientCars, setallClientCars] = useState([]);
   const [image, setimage] = useState(null)
   const [username, setusername] = useState("");
@@ -26,13 +26,13 @@ const Home = ({ route, navigation }) => {
   const [reload, setreload] = useState(0);
   const [confirmModal, setconfirmModal] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
-  
+
   const { setloginScreen } = route.params;
   // console.log(setloginScreen);
 
 
   const getData = async () => {
-    setModalVisible(false); 
+    setModalVisible(false);
     let res = await storage.load({ key: "ClientloginState" })
     let username = res.username;
     let token = res.token;
@@ -137,7 +137,7 @@ const Home = ({ route, navigation }) => {
   const showToastSuccess = () => {
     Toast.show({
       type: 'success',
-      text1: 'all iamges uploaded successfully'
+      text1: 'all images uploaded successfully'
     });
   }
 
@@ -157,12 +157,12 @@ const Home = ({ route, navigation }) => {
   let mode = "calendar";
 
   const handleAddress = () => {
-    setModalVisible(false); 
+    setModalVisible(false);
     navigation.navigate("address");
   }
 
   const handlePassword = () => {
-    setModalVisible(false); 
+    setModalVisible(false);
     navigation.navigate("changepassword", { setloginScreen: setloginScreen });
   }
 
@@ -192,16 +192,14 @@ const Home = ({ route, navigation }) => {
 
 
       <ScrollView>
+        <Toast style={{ zIndex: 1, backgroundColor: 'red' }} position='top' />
 
-        <Toast style={{ zIndex: 1 }} position='top' />
 
-        <View style={styles.container} >
-          {/* <Card.Title>Welcome {props.email}</Card.Title> */}
-          {allClientCars.map((car, i) => {
-            return <ClientCarDetails navigation={navigation} car={car} mode={mode} token={token} showToastError={showToastError} />
+        <View style={{zIndex:-1}} >
+            {allClientCars.map((car, i) => {
+              return <ClientCarDetails navigation={navigation} car={car} mode={mode} token={token} showError={showToastError} />
 
-          })}
-
+            })}
         </View>
         <View>
           <Modal
@@ -278,7 +276,7 @@ const Home = ({ route, navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    // flex: 1,
     zIndex: -1
   },
   fonts: {

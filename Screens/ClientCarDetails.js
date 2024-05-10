@@ -9,10 +9,10 @@ import { Rating, AirbnbRating } from 'react-native-ratings';
 import storage from '../storage';
 import Toast from 'react-native-toast-message';
 
-const ClientCarDetails = ({ car, navigation, mode, token }) => {
+const ClientCarDetails = ({ car, navigation, mode, token, showError }) => {
 
 
-    const host = "172.31.65.218";
+    const host = "172.31.66.127";
     // const [token, settoken] = useState(null);
     const [date, setdate] = useState(null);
     const [open, setopen] = useState(false);
@@ -22,7 +22,7 @@ const ClientCarDetails = ({ car, navigation, mode, token }) => {
     const handleViewMedia = async (car) => {
         console.log("trying to get media");
         if (date == null) {
-            showToastError();
+            showError();
             return;
         }
 
@@ -99,11 +99,11 @@ const ClientCarDetails = ({ car, navigation, mode, token }) => {
         let token = res.token;
 
         try {
-        
+
             let body = {
-                username:username, 
-                carNumber:car.carNumber, 
-                rating:ratings
+                username: username,
+                carNumber: car.carNumber,
+                rating: ratings
             }
             let res = await fetch(`http://${host}:8080/client/addRatings`, {
                 method: "POST",
@@ -116,12 +116,12 @@ const ClientCarDetails = ({ car, navigation, mode, token }) => {
             })
 
             // console.log(res);
-            
-            if(res.status == 200) {
+
+            if (res.status == 200) {
                 showToastSuccess();
                 setratingModal(false);
             } else {
-                showToastError(); 
+                showToastError();
             }
 
             try {
@@ -139,117 +139,122 @@ const ClientCarDetails = ({ car, navigation, mode, token }) => {
         }
     }
     return (
-        <Card key={car.carNumber}>
-            <Toast style={{ zIndex: 1 }} position='top' />
-            <View style={[styles.user, zIndex=-1]} >
-                <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', width: '100%', borderLeftColor: colorPlans[car.plan], borderLeftWidth: 5 }} >
-                    <View style={{ display: 'flex', flex: 0.55 }}>
+        <View >
+            <Toast style={{ zIndex: 1, backgroundColor: 'red' }} position='top' />
+            <View style={{ zIndex: -1 }} >
 
-                        <Text style={styles.name}>CarModel - {car.carModel}</Text>
-                        <Text style={styles.name}>CaNumber - {car.carNumber}</Text>
-                        <Text style={styles.name}>Description - {car.description}</Text>
-                        <Text style={styles.name}>Plan - {car.plan}</Text>
-                        <Text style={styles.name}>Validity - {moment(car.planValidity).utc().format("DD-MM-YYYY")}</Text>
-                        <Text style={styles.name}>carLocation - {car.carLocation}</Text>
-                    </View>
-                    <View style={{ display: 'flex', justifyContent: 'space-around', flex: 0.35 }} >
-                        <View style={{ display: 'flex', marginTop: 10 }}>
-                            <Button onPress={() => handleViewMedia(car)} >View Media</Button>
-                        </View>
+                <Card  key={car.carNumber}>
+                    <View style={[styles.user, zIndex = -1]} >
+                        <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', width: '100%', borderLeftColor: colorPlans[car.plan], borderLeftWidth: 5 }} >
+                            <View style={{ display: 'flex', flex: 0.55 }}>
 
-                        <View style={{ display: 'flex', marginTop: 10, borderWidth: 1, padding: 10 }}>
-                            <TouchableOpacity>
-                                <Text onPress={() => handleSelectDate(car)} >{date == null ? "Select date" : date}</Text>
-                            </TouchableOpacity>
-                        </View>
-                        <Modal
-                            animationType='slide'
-                            transparent={true}
-                            visible={open}
-                        >
-                            <View style={styles.centeredView} >
-                                <View style={styles.modalView}>
+                                <Text style={styles.name}>CarModel - {car.carModel}</Text>
+                                <Text style={styles.name}>CaNumber - {car.carNumber}</Text>
+                                <Text style={styles.name}>Description - {car.description}</Text>
+                                <Text style={styles.name}>Plan - {car.plan}</Text>
+                                <Text style={styles.name}>Validity - {moment(car.planValidity).utc().format("DD-MM-YYYY")}</Text>
+                                <Text style={styles.name}>carLocation - {car.carLocation}</Text>
+                            </View>
+                            <View style={{ display: 'flex', justifyContent: 'space-around', flex: 0.35 }} >
+                                <View style={{ display: 'flex', marginTop: 10 }}>
+                                    <Button onPress={() => handleViewMedia(car)} >View Media</Button>
+                                </View>
 
-                                    <DatePicker
-                                        mode={mode}
-                                        selected={date}
-                                        onDateChange={handleChangeDate}
-                                        format="dd-mm-yyyy"
-
-                                    />
-
+                                <View style={{ display: 'flex', marginTop: 10, borderWidth: 1, padding: 10 }}>
                                     <TouchableOpacity>
-                                        <Text onPress={() => handleSelectDate(car)}>Close</Text>
+                                        <Text onPress={() => handleSelectDate(car)} >{date == null ? "Select date" : date}</Text>
                                     </TouchableOpacity>
                                 </View>
+                                <Modal
+                                    animationType='slide'
+                                    transparent={true}
+                                    visible={open}
+                                >
+                                    <View style={styles.centeredView} >
+                                        <View style={styles.modalView}>
+
+                                            <DatePicker
+                                                mode={mode}
+                                                selected={date}
+                                                onDateChange={handleChangeDate}
+                                                format="dd-mm-yyyy"
+
+                                            />
+
+                                            <TouchableOpacity>
+                                                <Text onPress={() => handleSelectDate(car)}>Close</Text>
+                                            </TouchableOpacity>
+                                        </View>
+                                    </View>
+
+                                </Modal>
+                                <View style={{ display: 'flex', marginTop: 10 }}>
+                                    <Button onPress={() => handleCheckoutPage(car)} >Extend Plan</Button>
+                                </View>
+
                             </View>
+                        </View>
+
+
+                    </View>
+                    <View style={{ display: 'flex', marginTop: 10, }}>
+                        <Button onPress={() => handleSeeTransactionHistory()}>See Transaction History</Button>
+                    </View>
+
+                    <View style={{ display: 'flex', marginTop: 10, }}>
+                        <Button onPress={() => setratingModal(true)}>Submit Feedback</Button>
+                    </View>
+
+                    <View>
+
+                        <Modal
+                            animationType="slide"
+                            transparent={true}
+                            visible={ratingModal}
+                            onRequestClose={() => {
+                                setratingModal(!ratingModal);
+                            }}
+
+
+                        >
+
+
+                            <View style={styles.confirmCenteredView}>
+
+                                <View style={styles.modalView}>
+
+
+
+                                    <View>
+
+                                        <View style={{ marginBottom: 25, }} >
+                                            <AirbnbRating
+                                                count={5}
+                                                onFinishRating={(rating) => setratings(rating)}
+                                                reviews={["Terrible", "Bad", "OK", "Good", "Great"]}
+                                                defaultRating={0}
+                                                size={50}
+                                            />
+                                        </View>
+                                        <View style={{ marginBottom: 10 }} >
+                                            <Button title="Submit" onPress={() => handleSubmit()} />
+                                        </View>
+                                        <View>
+
+                                            <Button title="Cancel" onPress={() => setratingModal(false)} />
+                                        </View>
+                                    </View>
+                                </View>
+                            </View>
+
 
                         </Modal>
-                        <View style={{ display: 'flex', marginTop: 10 }}>
-                            <Button onPress={() => handleCheckoutPage(car)} >Extend Plan</Button>
-                        </View>
+
 
                     </View>
-                </View>
-
-
+                </Card>
             </View>
-            <View style={{ display: 'flex', marginTop: 10, }}>
-                <Button onPress={() => handleSeeTransactionHistory()}>See Transaction History</Button>
-            </View>
-
-            <View style={{ display: 'flex', marginTop: 10, }}>
-                <Button onPress={() => setratingModal(true)}>Submit Feedback</Button>
-            </View>
-
-            <View>
-
-                <Modal
-                    animationType="slide"
-                    transparent={true}
-                    visible={ratingModal}
-                    onRequestClose={() => {
-                        setratingModal(!ratingModal);
-                    }}
-
-
-                >
-
-
-                    <View style={styles.confirmCenteredView}>
-
-                        <View style={styles.modalView}>
-
-                            
-
-                            <View>
-
-                                <View style={{ marginBottom: 25,}} >
-                                    <AirbnbRating
-                                        count={5}
-                                        onFinishRating={(rating) => setratings(rating)}
-                                        reviews={["Terrible", "Bad", "OK", "Good", "Great"]}
-                                        defaultRating={0}
-                                        size={50}
-                                    />
-                                </View>
-                                <View style = {{marginBottom:10}} >
-                                    <Button title="Submit" onPress={() => handleSubmit()} />
-                                </View>
-                                <View>
-
-                                    <Button title="Cancel" onPress={() => setratingModal(false)} />
-                                </View>
-                            </View>
-                        </View>
-                    </View>
-
-
-                </Modal>
-
-
-            </View>
-        </Card>
+        </View>
     )
 }
 
@@ -277,8 +282,10 @@ const styles = StyleSheet.create({
     centeredView: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: 22
+        // alignItems: 'center',
+        marginTop: 22,
+        width: 'auto'
+
     },
     modalView: {
         // margin: 20,

@@ -7,7 +7,7 @@ import Toast from 'react-native-toast-message';
 const ChangePassword = ({ navigation, route }) => {
 
     const { setloginScreen } = route.params;
-    const host = "172.31.65.218";
+    const host = "172.31.66.127";
     useLayoutEffect(() => {
 
         navigation.setOptions({

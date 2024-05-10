@@ -11,7 +11,7 @@ const CheckoutPage = ({ route, navigation }) => {
 
 
     const { car, token } = route.params;
-    const host = "172.31.65.218";
+    const host = "172.31.66.127";
 
     const handlePay = async () => {
         console.log("paying")

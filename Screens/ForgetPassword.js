@@ -8,7 +8,7 @@ import Toast from 'react-native-toast-message';
 const ForgetPassword = ({ navigation, route }) => {
 
 
-    const host = "172.31.65.218";
+    const host = "172.31.66.127";
     const [username, setusername] = useState("");
 
     useLayoutEffect(() => {
@@ -29,35 +29,35 @@ const ForgetPassword = ({ navigation, route }) => {
             headerTitleAlign: 'center',
         })
     }, [])
-    
+
 
     const handleSubmit = async () => {
         // console.log(username);
-        try {
+        // try {
 
-            let res = await fetch(`http://${host}:8080/login/client/getotp/${username}`, {
-                method: "GET",
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            })
-            try {
-                // const response = await res.json();
-                // console.log(response);
-                // console.log(res);
+        //     let res = await fetch(`http://${host}:8080/login/client/getotp/${username}`, {
+        //         method: "GET",
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //         },
+        //     })
+        //     try {
+        //         // const response = await res.json();
+        //         // console.log(response);
+        //         // console.log(res);
 
-                if (res.status == 302) {
-                    // found 
-                    // navigation.
-                    navigation.navigate("otpscreen", { username: username });
-                }
-            } catch (error) {
-                console.log(res.status);
-                console.log(error);
-            }
-        } catch (error) {
-            console.log(error);
-        }
+        //         if (res.status == 302) {
+        //             // found 
+        //             // navigation.
+        navigation.navigate("otpscreen", { username: username });
+        //         }
+        //     } catch (error) {
+        //         console.log(res.status);
+        //         console.log(error);
+        //     }
+        // } catch (error) {
+        //     console.log(error);
+        // }
     }
 
     return (
@@ -80,7 +80,7 @@ const ForgetPassword = ({ navigation, route }) => {
                     </View>
                 </Card>
             </View>
-            
+
             <View style={{ padding: 15 }}>
                 <Button style={styles.btn} onPress={() => handleSubmit()} >Get Otp</Button>
             </View>

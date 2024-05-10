@@ -12,8 +12,8 @@ const ViewMedia = ({ route, navigation }) => {
     const [allUrls, setallUrls] = useState([])
 
     const { car, token, date } = route.params;
-    const host = "172.31.65.218";
-
+    const host = "172.31.66.127";
+    console.log("car->", car); 
     const getImages = async () => {
 
 

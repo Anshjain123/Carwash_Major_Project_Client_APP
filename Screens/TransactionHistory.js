@@ -11,7 +11,7 @@ const TransactionHistory = ({ navigation, route }) => {
 
     const [transactionHistory, settransactionHistory] = useState([]);
 
-    const host = "172.31.65.218";
+    const host = "172.31.66.127";
     const getTransactionHistory = async () => {
         let res = await storage.load({ key: "ClientloginState" })
         let username = res.username;

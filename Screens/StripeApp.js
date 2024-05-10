@@ -12,7 +12,7 @@ const StripeApp = ({ route, navigation }) => {
     const [Loading, setLoading] = useState(false)
     const { car, token, reload } = route.params;
 
-    const host = "172.31.65.218";
+    const host = "172.31.66.127";
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -91,7 +91,7 @@ const StripeApp = ({ route, navigation }) => {
 
         try {
             // console.log("yes");
-            const { clientSecret, id } = await fetchPaymentIntentClientSecret();
+            const { clientSecret, id, ephemeralKey, customer} = await fetchPaymentIntentClientSecret();
             // console.log("printing client secret in handlepaypress ", clientSecret)
 
 
@@ -104,7 +104,7 @@ const StripeApp = ({ route, navigation }) => {
             })
 
 
-            console.log(paymentIntent);
+            console.log("paymentIntent", paymentIntent);
             if (error) {
                 alert(`payment confirmation error ${error.message}`)
             } else if (paymentIntent) {

@@ -15,7 +15,7 @@ import storage from "../storage";
 
 const Login = ({ route, navigation }) => {
 
-    const host = "172.31.65.218";
+    const host = "172.31.66.127";
 
     const {setloginScreen} = route.params; 
 
